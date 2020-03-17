@@ -1,6 +1,4 @@
 init_topo_polygon/data/*/*.csv
-init_topo_polygon/data/*/*.dbf
-init_topo_polygon/data/*/*.gmt
 Tectonic_Uplift/*/*.nc
 Tectonic_Uplift/*/*.gmt
 Tectonic_Uplift/Feature_grids/*.nc
