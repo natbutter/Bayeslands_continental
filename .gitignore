@@ -39,8 +39,7 @@ Examples/*/*results_*
 Examples/*/images/*
 Examples/*/*_liklsurf*
 Examples/*/*.zip
-Examples/*/.idea/
-pyBadlands/*
+Examples/*/.idea/ 
 doc/*
 foldername.txt
 Examples/*/Output/*
