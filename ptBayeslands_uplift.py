@@ -939,9 +939,12 @@ class ParallelTempering:
         self.burn_in = burn_in
         
         self.assign_temperatures()
+        xml_list = ['Examples/australia/AUSP1307.xml','Examples/australia/AUSP1309.xml', 'Examples/australia/AUSP1310.xml',
+        'Examples/australia/AUSP1311.xml','Examples/australia/AUSP1312.xml', 'Examples/australia/AUSP1313.xml',]
         
         for i in xrange(0, self.num_chains):
-            self.vec_parameters =   np.random.uniform(minlimits_vec, maxlimits_vec)  
+            self.vec_parameters =   np.random.uniform(minlimits_vec, maxlimits_vec)
+            self.xmlinput = xml_list[i]     
             self.chains.append(ptReplica(i, self.num_param, self.vec_parameters, self.sealevel_data, self.ocean_t, self.inittopo_expertknow, self.rain_region, self.rain_time, self.len_grid, self.wid_grid, minlimits_vec, maxlimits_vec, stepratio_vec,  check_likelihood_sed ,self.swap_interval, self.sim_interval,   self.simtime, self.NumSamples, self.init_elev, self.real_elev,   self.real_erodep_pts, self.real_elev_pts, self.erodep_coords,self.elev_coords, self.folder, self.xmlinput,  self.run_nb,self.temperatures[i], self.parameter_queue[i],self.event[i], self.wait_chain[i],burn_in, self.inittopo_estimated, self.covariance, self.Bayes_inittopoknowledge))
 
     def swap_procedure(self, parameter_queue_1, parameter_queue_2):
