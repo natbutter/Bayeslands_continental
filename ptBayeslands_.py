@@ -529,17 +529,9 @@ class ptReplica(multiprocessing.Process):
  
             x = np.arange(0, self.sealevel_data.shape[0], 1)
             fig, ax =  plt.subplots() 
-
-
-
             #print(x, ' xxx')
-
             y = self.sealevel_data[:,1]
-
-
             print(y, ' sea_level')
-
-
 
             fnameplot = self.folder +  '/recons_initialtopo/'+'sealevel_data.png' 
             ax.plot(x, y)
