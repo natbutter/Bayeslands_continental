@@ -310,18 +310,19 @@ class ptReplica(multiprocessing.Process):
             #And put the demfile on a grid we can manipulate easily
             elev=np.reshape(model.recGrid.rectZ,(xi,yi)) 
             
-            dummy_file = pd.read_csv('AUS/upliftvariables.txt')
-            edit_Uplift(self.ID, dummy_file)
-            process_Uplift(self.ID)
+            # dummy_file = pd.read_csv('AUS/upliftvariables.txt')
+            # edit_Uplift(self.ID, dummy_file)
+            # process_Uplift(self.ID)
 
             # self.process_inittopoGMT(inittopo_vec)  
             init_filename='init_topo_polygon/Paleotopo_P100_50km_prec2_'+ str(int(self.ID)) +'.csv' 
-            upl_filename = 'AUS/%s/AUS001.xml'%(self.ID)
+            # upl_filename = 'AUS/%s/AUS001.xml'%(self.ID)
             #elev_framex = np.vstack((model.recGrid.rectX,model.recGrid.rectY,inittopo_estimate.flatten()))
             #np.savetxt(filename, elev_framex.T, fmt='%1.2f' ) 
            
-            model.load_xml(str(self.run_nb), upl_filename, muted=True)
-            print('New XML file loaded :', upl_filename)
+            # print
+            # model.load_xml(str(self.run_nb), upl_filename, muted=True)
+            # print('New XML file loaded :', upl_filename)
             model.input.demfile=init_filename
 
             model.build_mesh(model.input.demfile, verbose=False)
