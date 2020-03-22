@@ -402,9 +402,16 @@ class ptReplica(multiprocessing.Process):
 
         pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector )
 
-        f = open(self.folder + "/realtime_data/%" %(self.ID) + str(self.sim_interval[i]) + "pred_elev_vec.pkl","wb")
+        x =self.folder + "/realtime_data/" +str(self.ID)  + "/pred_elev_vec.pkl"
+        print(x)
+
+        f = open(x,"wb")
         pickle.dump(pred_elev_vec,f)
         f.close()
+
+        z = open(self.folder + "/realtime_data/" +str(self.ID)  + "/pred_erodep_vec.pkl","wb")
+        pickle.dump(pred_erodep_vec,z)
+        z.close()
 
         likelihood_elev_ocean = 0
         rmse_ocean = np.zeros(self.sim_interval.size)
@@ -426,37 +433,42 @@ class ptReplica(multiprocessing.Process):
 
             # print('\n sim_interval[i] ', sim_interval[i], ' matches : ', matches ,'  non matches : ', non_matches, 'percentage non match', (non_matches/p_elev_ocean.size)*100)
             fig = plt.figure()
-            plt.imshow(p_elev_ocean, cmap='hot', interpolation='nearest')
-            plt.savefig(self.folder +'/pred_plots/'+ str(self.sim_interval[i]) +'p_elev_ocean.png')
+            im = plt.imshow(p_elev_ocean, cmap='hot', interpolation='nearest')
+            plt.colorbar(im)
+            plt.savefig(self.folder +'/realtime_plots/' + str(self.ID)+'/' + str(self.sim_interval[i]) +'r_elev_ocean.png')
             plt.close()
 
             fig = plt.figure()
-            plt.imshow(r_elev_ocean, cmap='hot', interpolation='nearest')
-            plt.savefig(self.folder +'/pred_plots/'+ str(self.sim_interval[i]) +'r_elev_ocean.png')
+            im = plt.imshow(r_elev_ocean, cmap='hot', interpolation='nearest') 
+            plt.colorbar(im)
+            plt.savefig(self.folder +'/realtime_plots/' + str(self.ID)+'/' + str(self.sim_interval[i]) +'r_elev_ocean.png')
             plt.close()
 
             fig = plt.figure()
-            plt.imshow(pred_erdp, cmap='hot', interpolation='nearest')
-            plt.savefig(self.folder +'/realtime_plots/%' %(self.ID) + str(self.sim_interval[i]) +'erodep.png')
+            im = plt.imshow(pred_erdp, cmap='hot', interpolation='nearest')
+            plt.colorbar(im)
+            plt.savefig(self.folder +'/realtime_plots/' + str(self.ID)+'/' + str(self.sim_interval[i]) +'erodep.png')
             plt.close()
             
             fig = plt.figure()
-            plt.imshow(pred_elev, cmap='hot', interpolation='nearest')
-            plt.savefig(self.folder +'/realtime_plots/%' %(self.ID) + str(self.sim_interval[i]) +'elev.png')
+            im = plt.imshow(pred_elev, cmap='hot', interpolation='nearest')
+            plt.colorbar(im)
+            plt.savefig(self.folder +'/realtime_plots/' + str(self.ID) + '/'+str(self.sim_interval[i]) +'elev.png')
             plt.close()
 
             tausq_ocean = np.sum(np.square(p_elev_ocean - r_elev_ocean))/self.real_elev.size  
             rmse_ocean[i] = tausq_ocean
             likelihood_elev_ocean  += np.sum(-0.5 * np.log(2 * math.pi * tausq_ocean) - 0.5 * np.square(p_elev_ocean - r_elev_ocean) /  tausq_ocean )
 
-        fig = plt.figure()
+        '''fig = plt.figure()
         plt.imshow(self.real_erodep_pts, cmap='hot', interpolation='nearest')
-        plt.savefig(self.folder +'/realtime_plots/%' %(self.ID) + str(self.sim_interval[i]) +'real_erodep.png')
-        plt.close()
+        plt.savefig(self.folder +'/realtime_plots/' + str(self.ID) + '/'+ str(self.sim_interval[i]) +'real_erodep.png')
+        plt.close()'''
         
         fig = plt.figure()
-        plt.imshow(self.real_elev, cmap='hot', interpolation='nearest')
-        plt.savefig(self.folder +'/realtime_plots/%' %(self.ID) + str(self.sim_interval[i]) +'real_elev.png')
+        im = plt.imshow(self.real_elev, cmap='hot', interpolation='nearest')
+        plt.colorbar(im)
+        plt.savefig(self.folder +'/realtime_plots/' + str(self.ID)  +'/real_elev.png')
         plt.close()
 
         tausq = np.sum(np.square(pred_elev_vec[self.simtime] - self.real_elev))/self.real_elev.size 
@@ -490,7 +502,8 @@ class ptReplica(multiprocessing.Process):
 
         print('LIKELIHOOD :--: Elev: ',likelihood_elev, '\tErdp: ', likelihood_erodep, '\tOcean:',likelihood_elev_ocean,'\tTotal: ', likelihood_, likelihood)
         print('RMSE :--: Elev ', rmse_elev, 'Erdp', rmse_erodep, 'Ocean', rmse_elev_ocean)
-        np.savetxt(self.folder +'/realtime_plots/%' %(self.ID) + str(self.sim_interval[i]) + 'rmse.txt', [rmse_elev, rmse_erodep, rmse_elev_ocean])
+        np.savetxt(self.folder +'/realtime_plots/' +str(self.ID)  + '/rmse_stats.txt', [rmse_elev, rmse_erodep, rmse_elev_ocean])
+        np.savetxt(self.folder +'/realtime_plots/'+ str(self.ID)  + '/rmse_ocean_time.txt',rmse_ocean)
         return [likelihood, pred_elev_vec, pred_erodep_pts_vec, likelihood, rmse_elev_pts, rmse_erodep, rmse_ocean, rmse_elev_ocean ]
 
     def run(self):
