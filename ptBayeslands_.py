@@ -58,6 +58,9 @@ from problem_setup import problem_setup
 #plotly.offline.init_notebook_mode()
 
 
+import pickle
+
+
 #Initialise and parse inputs
 parser=argparse.ArgumentParser(description='PTBayeslands modelling')
 
