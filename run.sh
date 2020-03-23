@@ -3,9 +3,9 @@
 echo Running all 	 
 
 problem=2
-replica=8
+replica=2
 
-samples=1000
+samples=200
 swapint=2
 maxtemp=2  
 burn=0.1
