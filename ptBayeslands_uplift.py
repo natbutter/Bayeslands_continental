@@ -278,7 +278,7 @@ class ptReplica(multiprocessing.Process):
         y_smooth = np.convolve(y, box, mode='same')
         return y_smooth
 
-    def run_badlands(self, input_vector):
+    def run_badlands(self, input_vector, xml_id):
         #Runs a badlands model with the specified inputs
  
         rain_regiontime = self.rain_region * self.rain_time # number of parameters for rain based on  region and time 
@@ -286,9 +286,11 @@ class ptReplica(multiprocessing.Process):
         #Create a badlands model instance
         model = badlandsModel()
 
+        xmlinput = self.input[xml_id]
+
         #----------------------------------------------------------------
         # Load the XmL input file
-        model.load_xml(str(self.run_nb), self.input, muted=True)
+        model.load_xml(str(self.run_nb), xmlinput, muted=True)
         init = True
 
         num_sealevel_coef = 10
@@ -300,7 +302,7 @@ class ptReplica(multiprocessing.Process):
 
             inittopo_vec = input_vector[geoparam:]
 
-            filename=self.input.split("/")
+            filename=xmlinput.split("/")
             problem_folder=filename[0]+"/"+filename[1]+"/"
 
             #Use the coordinates from the original dem file
@@ -398,9 +400,11 @@ class ptReplica(multiprocessing.Process):
  
         return elev_vec, erodep_vec, erodep_pts_vec, elev_pts_vec
 
-    def likelihood_func(self,input_vector): 
+    def likelihood_func(self,input_vector, xml_id): 
 
-        pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector )
+        xml_id = 1
+
+        pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector, xml_id)
 
         x =self.folder + "/realtime_data/" +str(self.ID)  + "/pred_elev_vec.pkl"
         print(x)
@@ -977,7 +981,7 @@ class ParallelTempering:
         
         for i in xrange(0, self.num_chains):
             self.vec_parameters =   np.random.uniform(minlimits_vec, maxlimits_vec)
-            self.xmlinput = xml_list[i]     
+            self.xmlinput = xml_list     
             self.chains.append(ptReplica(i, self.num_param, self.vec_parameters, self.sealevel_data, self.ocean_t, self.inittopo_expertknow, self.rain_region, self.rain_time, self.len_grid, self.wid_grid, minlimits_vec, maxlimits_vec, stepratio_vec,  check_likelihood_sed ,self.swap_interval, self.sim_interval,   self.simtime, self.NumSamples, self.init_elev, self.real_elev,   self.real_erodep_pts, self.real_elev_pts, self.erodep_coords,self.elev_coords, self.folder, self.xmlinput,  self.run_nb,self.temperatures[i], self.parameter_queue[i],self.event[i], self.wait_chain[i],burn_in, self.inittopo_estimated, self.covariance, self.Bayes_inittopoknowledge))
 
     def swap_procedure(self, parameter_queue_1, parameter_queue_2):
