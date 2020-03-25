@@ -998,7 +998,8 @@ class ParallelTempering:
         
         self.assign_temperatures()
         xml_list = ['Examples/australia/AUSP1307.xml','Examples/australia/AUSP1309.xml', 'Examples/australia/AUSP1310.xml',
-        'Examples/australia/AUSP1311.xml','Examples/australia/AUSP1312.xml', 'Examples/australia/AUSP1313.xml',]
+        'Examples/australia/AUSP1311.xml','Examples/australia/AUSP1312.xml', 'Examples/australia/AUSP1313.xml', 'Examples/australia/AUSP1314.xml',
+        'Examples/australia/AUSP1315.xml']
         
         for i in xrange(0, self.num_chains):
             self.vec_parameters =   np.random.uniform(minlimits_vec, maxlimits_vec)
