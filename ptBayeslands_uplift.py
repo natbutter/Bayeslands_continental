@@ -400,18 +400,28 @@ class ptReplica(multiprocessing.Process):
  
         return elev_vec, erodep_vec, erodep_pts_vec, elev_pts_vec
 
-    def likelihood_func(self,input_vector, xml_id): 
+    def likelihood_func(self,input_vector): 
 
-        xml_id = 1
+        xml_id = self.ID
 
         pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector, xml_id)
 
-        x =self.folder + "/realtime_data/" +str(self.ID)  + "/pred_elev_vec.pkl"
-        print(x)
+        x =self.folder + "/realtime_data/" +str(self.ID)  + "/pred_elev_vec.pkl" 
+      
+        np.save(self.folder + "/realtime_data/" +str(self.ID)  + "/real_erodep_pts_vec.npy", self.real_elev_pts) # save
 
         f = open(x,"wb")
         pickle.dump(pred_elev_vec,f)
         f.close()
+
+        g = open(self.folder + "/realtime_data/" +str(self.ID)  + "/pred_erodep_pts_vec.pkl", "wb") # save
+        pickle.dump(pred_erodep_pts_vec,g)
+        g.close()
+
+        h = open(self.folder + "/realtime_data/" +str(self.ID)  + "/pred_elev_pts_vec.pkl","wb") # save
+        pickle.dump(pred_elev_pts_vec,h)
+        h.close()
+
 
         z = open(self.folder + "/realtime_data/" +str(self.ID)  + "/pred_erodep_vec.pkl","wb")
         pickle.dump(pred_erodep_vec,z)
