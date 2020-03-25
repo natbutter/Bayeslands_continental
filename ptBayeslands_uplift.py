@@ -489,11 +489,22 @@ class ptReplica(multiprocessing.Process):
         likelihood_elev  = np.sum(-0.5 * np.log(2 * math.pi * tausq ) - 0.5 * np.square(pred_elev_vec[self.simtime] - self.real_elev) / tausq )  
 
         if problem ==2:
+
+            mean_erdep = np.mean(self.real_erodep_pts)
+            erdep_predicted = pred_erodep_pts_vec[self.simtime] 
+
+            erdep_predicted[erdep_predicted < 0] = mean_erdep
+
+
+            tau_erodep  =  np.sum(np.square(erdep_predicted - self.real_erodep_pts))/ self.real_erodep_pts.shape[0]
+
+
+
+
             tau_elev =  np.sum(np.square(pred_elev_pts_vec[self.simtime] - self.real_elev_pts)) / self.real_elev_pts.shape[0]
-            tau_erodep  =  np.sum(np.square(pred_erodep_pts_vec[self.simtime] - self.real_erodep_pts))/ self.real_erodep_pts.shape[0]
   
             likelihood_elev  = np.sum(-0.5 * np.log(2 * math.pi * tau_elev ) - 0.5 * np.square(pred_elev_pts_vec[self.simtime] - self.real_elev_pts) / tau_elev )
-            likelihood_erodep  = np.sum(-0.5 * np.log(2 * math.pi * tau_erodep ) - 0.5 * np.square(pred_erodep_pts_vec[self.sim_interval[len(self.sim_interval)-1]] - self.real_erodep_pts[0]) / tau_erodep ) # only considers point or core of erodep    
+            likelihood_erodep  = np.sum(-0.5 * np.log(2 * math.pi * tau_erodep ) - 0.5 * np.square(erdep_predicted - self.real_erodep_pts) / tau_erodep ) # only considers point or core of erodep    
         else:
             likelihood_erodep  = 0
             tau_elev = tausq
