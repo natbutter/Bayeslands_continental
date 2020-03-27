@@ -152,8 +152,11 @@ def problem_setup(problem = 1):
         real_cmarine = 0.005 # Marine diffusion coefficient [m2/a] -->
         real_caerial = 0.001 #aerial diffusion
 
-        rain_min = 0.3
-        rain_max = 1.8
+        #rain_min = 0.3
+        #rain_max = 1.8
+
+        rain_min = 0.5
+        rain_max = 0.5
 
         # assume 4 regions and 4 time scales
         rain_regiongrid = 1  # how many regions in grid format 

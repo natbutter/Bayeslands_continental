@@ -406,6 +406,9 @@ class ptReplica(multiprocessing.Process):
 
         pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector, xml_id)
 
+     
+        
+
         x =self.folder + "/realtime_data/" +str(self.ID)  + "/pred_elev_vec.pkl" 
       
         np.save(self.folder + "/realtime_data/" +str(self.ID)  + "/real_erodep_pts_vec.npy", self.real_elev_pts) # save
@@ -490,20 +493,32 @@ class ptReplica(multiprocessing.Process):
 
         if problem ==2:
 
+
             mean_erdep = np.mean(self.real_erodep_pts)
             erdep_predicted = pred_erodep_pts_vec[self.simtime] 
 
-            erdep_predicted[erdep_predicted < 0] = 0
-
+            erdep_predicted[erdep_predicted < 0] = 0 
 
             tau_erodep  =  np.sum(np.square(erdep_predicted - self.real_erodep_pts))/ self.real_erodep_pts.shape[0]
 
 
 
 
-            tau_elev =  np.sum(np.square(pred_elev_pts_vec[self.simtime] - self.real_elev_pts)) / self.real_elev_pts.shape[0]
+            #tau_elev =  np.sum(np.square(pred_elev_pts_vec[self.simtime] - self.real_elev_pts)) / self.real_elev_pts.shape[0]
+
+            pred_elev = pred_elev_pts_vec[self.simtime] 
+
+
+            real_elev_filtered = np.where((self.real_elev>0) & (self.real_elev<200), self.real_elev, 0)  
+            pred_elev_filtered = np.where((pred_elev>0) & (pred_elev<200), pred_elev, 0)
+
+
+            diff = pred_elev_filtered  - real_elev_filtered
+            count = np.count_nonzero(diff) 
+
+            tau_elev =  np.sum(np.square(diff)) / count
   
-            likelihood_elev  = np.sum(-0.5 * np.log(2 * math.pi * tau_elev ) - 0.5 * np.square(pred_elev_pts_vec[self.simtime] - self.real_elev_pts) / tau_elev )
+            likelihood_elev  = np.sum(-0.5 * np.log(2 * math.pi * tau_elev ) - 0.5 * np.square(diff) / tau_elev )
             likelihood_erodep  = np.sum(-0.5 * np.log(2 * math.pi * tau_erodep ) - 0.5 * np.square(erdep_predicted - self.real_erodep_pts) / tau_erodep ) # only considers point or core of erodep    
         else:
             likelihood_erodep  = 0
