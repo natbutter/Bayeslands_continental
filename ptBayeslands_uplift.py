@@ -331,7 +331,7 @@ class ptReplica(multiprocessing.Process):
 
         # Adjust precipitation values based on given parameter
         #print(input_vector[0:rain_regiontime] )
-        model.force.rainVal  = input_vector[0:rain_regiontime-1] 
+        # model.force.rainVal  = input_vector[0:rain_regiontime-1] 
 
         # Adjust erodibility based on given parameter
         model.input.SPLero = input_vector[rain_regiontime]  
