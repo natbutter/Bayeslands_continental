@@ -493,7 +493,7 @@ class ptReplica(multiprocessing.Process):
             mean_erdep = np.mean(self.real_erodep_pts)
             erdep_predicted = pred_erodep_pts_vec[self.simtime] 
 
-            erdep_predicted[erdep_predicted < 0] = mean_erdep
+            erdep_predicted[erdep_predicted < 0] = 0
 
 
             tau_erodep  =  np.sum(np.square(erdep_predicted - self.real_erodep_pts))/ self.real_erodep_pts.shape[0]
