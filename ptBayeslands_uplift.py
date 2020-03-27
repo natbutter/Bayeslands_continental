@@ -278,13 +278,22 @@ class ptReplica(multiprocessing.Process):
         y_smooth = np.convolve(y, box, mode='same')
         return y_smooth
 
-    def run_badlands(self, input_vector, xml_id):
+    def run_badlands(self, input_vector):
         #Runs a badlands model with the specified inputs
+
+        print(self.real_elev.shape, ' real evel sh')
+
+
+        print(self.real_elev_pts.shape, ' real evel pt sh')
  
         rain_regiontime = self.rain_region * self.rain_time # number of parameters for rain based on  region and time 
 
         #Create a badlands model instance
         model = badlandsModel()
+
+        xml_id = int(input_vector[11]/10)
+
+        print(xml_id, input_vector[11], ' xml_id  input_vector[11]')
 
         xmlinput = self.input[xml_id]
 
@@ -297,7 +306,7 @@ class ptReplica(multiprocessing.Process):
 
         if init == True:
 
-            geoparam  = num_sealevel_coef + rain_regiontime+11  # note 10 parameter space is for erod, c-marine etc etc, some extra space ( taking out time dependent rainfall)
+            geoparam  = num_sealevel_coef + rain_regiontime+12  # note 10 parameter space is for erod, c-marine etc etc, some extra space ( taking out time dependent rainfall)
 
 
             inittopo_vec = input_vector[geoparam:]
@@ -402,9 +411,9 @@ class ptReplica(multiprocessing.Process):
 
     def likelihood_func(self,input_vector): 
 
-        xml_id = self.ID
+        #xml_id = self.ID
 
-        pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector, xml_id)
+        pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector)
 
      
         
@@ -506,7 +515,7 @@ class ptReplica(multiprocessing.Process):
 
             #tau_elev =  np.sum(np.square(pred_elev_pts_vec[self.simtime] - self.real_elev_pts)) / self.real_elev_pts.shape[0]
 
-            pred_elev = pred_elev_pts_vec[self.simtime] 
+            pred_elev = pred_elev_vec[self.simtime] 
 
 
             real_elev_filtered = np.where((self.real_elev>0) & (self.real_elev<200), self.real_elev, 0)  

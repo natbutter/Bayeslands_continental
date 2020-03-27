@@ -166,8 +166,8 @@ def problem_setup(problem = 1):
 
         #--------------------------------------------------------
  
-        minlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01]  # used for Bayeslands environmental params  (stage 2) 
-        maxlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01] #   429.560216846004 rmse_elev   2921.1315327463903 rmse_erdep
+        minlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01, 0]  # used for Bayeslands environmental params  (stage 2) 
+        maxlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01, 80] #   429.560216846004 rmse_elev   2921.1315327463903 rmse_erdep
  
 
         #minlimits_others = [5.e-7, 0, 0 , 0  ,  0 , 0 , 0 , 0, 5001, 4, 0 ]  # used for Bayeslands environmental params  (stage 2) 
@@ -178,16 +178,16 @@ def problem_setup(problem = 1):
         #----------------------------------------InitTOPO
 
         epsilon = 0.5 
-        inittopo_gridlen = 20  # should be of same format as @   inittopo_expertknow
-        inittopo_gridwidth = 20
+        inittopo_gridlen = 5  # should be of same format as @   inittopo_expertknow
+        inittopo_gridwidth = 5
 
         len_grid = int(groundtruth_elev.shape[0]/inittopo_gridlen)  # take care of left over
         wid_grid = int(groundtruth_elev.shape[1]/inittopo_gridwidth)   # take care of left over
 
         print(len_grid, wid_grid, groundtruth_elev.shape[0], groundtruth_elev.shape[1] ,'  sub_gridlen, sub_gridwidth   ------------ ********')
          
-        inittopo_minlimits = np.repeat(-1 , 400)
-        inittopo_maxlimits = np.repeat(1 , 400)
+        inittopo_minlimits = np.repeat(-1 , 25)
+        inittopo_maxlimits = np.repeat(1 , 25)
 
         sealevel_max = [0.2,0.2,0.3,0.3,0.40,0.40,0.45,0.45,0.5,0.5] 
  
