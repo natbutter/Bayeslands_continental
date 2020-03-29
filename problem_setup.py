@@ -152,11 +152,11 @@ def problem_setup(problem = 1):
         real_cmarine = 0.005 # Marine diffusion coefficient [m2/a] -->
         real_caerial = 0.001 #aerial diffusion
 
-        #rain_min = 0.3
-        #rain_max = 1.8
+        rain_min = 0.3
+        rain_max = 1.8
 
-        rain_min = 0.5
-        rain_max = 0.5
+        #rain_min = 0.5
+        #rain_max = 0.5
 
         # assume 4 regions and 4 time scales
         rain_regiongrid = 1  # how many regions in grid format 
@@ -166,12 +166,12 @@ def problem_setup(problem = 1):
 
         #--------------------------------------------------------
  
-        minlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01, 0]  # used for Bayeslands environmental params  (stage 2) 
-        maxlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01, 80] #   429.560216846004 rmse_elev   2921.1315327463903 rmse_erdep
+        #minlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01, 0]  # used for Bayeslands environmental params  (stage 2) 
+        #maxlimits_others = [1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01, 80] #   429.560216846004 rmse_elev   2921.1315327463903 rmse_erdep
  
 
-        #minlimits_others = [5.e-7, 0, 0 , 0  ,  0 , 0 , 0 , 0, 5001, 4, 0 ]  # used for Bayeslands environmental params  (stage 2) 
-        #maxlimits_others = [5.e-6, 1 ,  2, 0.5, 0.05, 0.05, 1, 20, 25002, 20, 0.2]
+        minlimits_others = [5.e-7, 0, 0 , 0  ,  0 , 0 , 0 , 0, 5001, 4, 0, 0  ]  # used for Bayeslands environmental params  (stage 2) 
+        maxlimits_others = [5.e-6, 1 ,  2, 0.5, 0.05, 0.05, 1, 20, 25002, 20, 0.2, 80]
  
         #variables[:15] = [1.16, 0.9, 1.092, 1.0, 1.e-6, 0.5, 1.0, 0.005, 0.001, 0.001, 0.5, 5, 24000, 5, 0.01]
  

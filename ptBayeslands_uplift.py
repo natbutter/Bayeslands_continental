@@ -280,22 +280,22 @@ class ptReplica(multiprocessing.Process):
 
     def run_badlands(self, input_vector):
         #Runs a badlands model with the specified inputs
-
-        print(self.real_elev.shape, ' real evel sh')
-
-
-        print(self.real_elev_pts.shape, ' real evel pt sh')
+ 
  
         rain_regiontime = self.rain_region * self.rain_time # number of parameters for rain based on  region and time 
 
         #Create a badlands model instance
         model = badlandsModel()
 
-        xml_id = int(input_vector[11]/10)
+        xml_id_ = int(input_vector[11]/10)
 
-        print(xml_id, input_vector[11], ' xml_id  input_vector[11]')
+        xml_id = self.ID
+
+        print(xml_id_, self.ID, input_vector[11], ' xml_id  input_vector[11]')
 
         xmlinput = self.input[xml_id]
+
+
 
         #----------------------------------------------------------------
         # Load the XmL input file
@@ -411,7 +411,7 @@ class ptReplica(multiprocessing.Process):
 
     def likelihood_func(self,input_vector): 
 
-        #xml_id = self.ID
+        
 
         pred_elev_vec, pred_erodep_vec, pred_erodep_pts_vec, pred_elev_pts_vec = self.run_badlands(input_vector)
 
@@ -715,7 +715,7 @@ class ptReplica(multiprocessing.Process):
                 elif v_proposal[j] < self.minlimits_vec[j]:
                     v_proposal[j] = v_current[j]
 
-            #print(v_proposal)  
+            print(v_proposal, self.ID, ' proposed ')  
             # Passing paramters to calculate likelihood and rmse with new tau
             [likelihood_proposal, predicted_elev,  pred_erodep_pts, likl_without_temp, avg_rmse_el, avg_rmse_er, rmse_ocean, rmse_elev_ocean] = self.likelihood_func(v_proposal)
 
