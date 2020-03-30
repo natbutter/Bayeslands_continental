@@ -44,8 +44,7 @@ doc/*
 foldername.txt
 Examples/*/Output/*
 pyBadlands/libUtils/*.so
-pyBadlands/libUtils/*.o
-pyBadlands/libUtils/*
+pyBadlands/libUtils/*.o 
 pyBadlands/simulation/*.pyc
 pyBadlands/*/*.pyc
 
