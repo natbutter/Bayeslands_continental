@@ -8,7 +8,7 @@ import fnmatch
 import shutil
 import time
 import numpy as np
-from pyBadlands.model import Model as badlandsModel
+from badlands.model import Model as badlandsModel
 
 import pickle
 

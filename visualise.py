@@ -34,12 +34,12 @@ from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
 from scipy.spatial import cKDTree
 from scipy import stats 
-from pyBadlands.model import Model as badlandsModel
+from badlands.model import Model as badlandsModel
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D
 import itertools
-import plotly
-import plotly.plotly as py
+import chart_studio.plotly
+import chart_studio.plotly as py
 from plotly.graph_objs import *
 from IPython.display import HTML
 from plotly.offline import download_plotlyjs, init_notebook_mode, plot, iplot
