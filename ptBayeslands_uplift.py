@@ -287,11 +287,11 @@ class ptReplica(multiprocessing.Process):
         #Create a badlands model instance
         model = badlandsModel()
 
-        xml_id_ = int(input_vector[11]/10)
+        xml_id = int(input_vector[11]/10)
 
-        xml_id = self.ID
+        #xml_id = self.ID
 
-        print(xml_id_, self.ID, input_vector[11], ' xml_id  input_vector[11]')
+        print(xml_id, self.ID, input_vector[11], ' xml_id  input_vector[11]')
 
         xmlinput = self.input[xml_id]
 
@@ -518,8 +518,8 @@ class ptReplica(multiprocessing.Process):
             pred_elev = pred_elev_vec[self.simtime] 
 
 
-            real_elev_filtered = np.where((self.real_elev>0) & (self.real_elev<200), self.real_elev, 0)  
-            pred_elev_filtered = np.where((pred_elev>0) & (pred_elev<200), pred_elev, 0)
+            real_elev_filtered = np.where((self.real_elev>0) & (self.real_elev<600), self.real_elev, 0)  
+            pred_elev_filtered = np.where((pred_elev>0) & (pred_elev<600), pred_elev, 0)
 
 
             diff = pred_elev_filtered  - real_elev_filtered
