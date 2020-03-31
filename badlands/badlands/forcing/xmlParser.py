@@ -22,7 +22,7 @@ class xmlParser:
         inputfile : (str) this is a string containing the XML input file.
         makeUniqueOutputDir : (boolean) uniquely-named directory for the output (default: True)
     """
-    def __init__(self, inputfile = None, makeUniqueOutputDir=True):
+    def __init__(self, run_nb, muted = True, inputfile = None, makeUniqueOutputDir=True):
 
         if inputfile==None:
             raise RuntimeError('XmL input file name must be defined to run a Badlands simulation.')
@@ -135,6 +135,8 @@ class xmlParser:
         self.fxmffile = 'xmf/flow.time'
         self.fxdmffile = 'flow.series.xdmf'
 
+        self.muted = muted
+
         self.flexure = False
         self.ftime = None
         self.fnx = None
@@ -216,9 +218,9 @@ class xmlParser:
         self.pelGrowth = 0.
         self.pelDepth = None
 
-        self._get_XmL_Data()
+        self._get_XmL_Data(muted = self.muted)
 
-    def _get_XmL_Data(self):
+    def _get_XmL_Data(self, muted = False):
         """
         Main function used to parse the XmL input file.
         """
@@ -1326,11 +1328,11 @@ class xmlParser:
         if self.makeUniqueOutputDir:
             if os.path.exists(self.outDir):
                 self.outDir += '_'+str(len(glob.glob(self.outDir+str('*')))-1)
-
-        os.makedirs(self.outDir)
-        os.makedirs(self.outDir+'/h5')
-        os.makedirs(self.outDir+'/xmf')
-        shutil.copy(self.inputfile,self.outDir)
+            if not muted:
+                os.makedirs(self.outDir)
+                os.makedirs(self.outDir+'/h5')
+                os.makedirs(self.outDir+'/xmf')
+                shutil.copy(self.inputfile,self.outDir)
 
         # Extract global wave field parameters
         wavefield = None

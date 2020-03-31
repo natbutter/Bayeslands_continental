@@ -229,7 +229,7 @@ class strataMesh():
 
         return
 
-    def buildStrata(self, elev, cumdiff, sea, boundsPt, write=0, outstep=0):
+    def buildStrata(self, muted, elev, cumdiff, sea, boundsPt, write=0, outstep=0):
         """
         Build the stratigraphic layer on the regular grid.
 
@@ -290,7 +290,8 @@ class strataMesh():
         self.oldload += sub_poro
         if write>0:
             self.layerMesh(selev[self.ids]+subs[self.ids])
-            self.write_hdf5_stratal(outstep-1)
+            if not muted:
+                self.write_hdf5_stratal(outstep-1)
 
         self.step += 1
 

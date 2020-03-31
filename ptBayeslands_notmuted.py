@@ -46,6 +46,8 @@ from matplotlib.collections import PatchCollection
 from scipy.spatial import cKDTree
 from scipy import stats 
 from badlands.model import Model as badlandsModel
+import badlands
+# print('\n\n\n\n\n',badlands.model.__file__, '\n\n\n\n\n')
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D
 from IPython.display import HTML
@@ -302,7 +304,8 @@ class ptReplica(multiprocessing.Process):
 
         #----------------------------------------------------------------
         # Load the XmL input file
-        model.load_xml(xmlinput)
+        model.load_xml(str(self.run_nb), xmlinput, verbose =False, muted = True)
+        
         init = False
 
         num_sealevel_coef = 10
@@ -335,7 +338,7 @@ class ptReplica(multiprocessing.Process):
             #np.savetxt(filename, elev_framex.T, fmt='%1.2f' ) 
            
             # print
-            # model.load_xml(upl_filename)
+            # model.load_xml(upl_filename, muted = True)
             # print('New XML file loaded :', upl_filename)
             model.input.demfile=init_filename
 
@@ -381,7 +384,7 @@ class ptReplica(multiprocessing.Process):
 
 
 
-        model.run_to_time(-1.489999e08)
+        model.run_to_time(-1.489999e08, muted = True)
         elev_, erodep_ = interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff) 
 
         self.plot3d_plotly(elev_, '/pred_plots/GMTinit_', self.ID )   
@@ -390,7 +393,7 @@ class ptReplica(multiprocessing.Process):
 
         for x in range(len(self.sim_interval)):
             self.simtime = self.sim_interval[x]
-            model.run_to_time(self.simtime)
+            model.run_to_time(self.simtime, muted = True)
 
             elev, erodep = interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff)
 
