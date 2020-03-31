@@ -473,7 +473,7 @@ class Model(object):
                 if self.straTIN is not None:
                     self.straTIN.step += 1
                 if self.strata:
-                    sub = self.strata.buildStrata(self.elevation, self.cumdiff, self.force.sealevel,
+                    sub = self.strata.buildStrata(muted, self.elevation, self.cumdiff, self.force.sealevel,
                         self.recGrid.boundsPt,outStrata, self.outputStep)
                     self.elevation += sub
                     self.cumdiff += sub
