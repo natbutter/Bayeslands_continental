@@ -36,7 +36,7 @@ from matplotlib.patches import Polygon
 from matplotlib.collections import PatchCollection
 from scipy.spatial import cKDTree
 from scipy import stats 
-from pyBadlands.model import Model as badlandsModel
+from badlands.model import Model as badlandsModel
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D
 import itertools
