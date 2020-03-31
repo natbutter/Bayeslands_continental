@@ -386,7 +386,7 @@ class Model(object):
                 self.cumflex += self.tinFlex
                 # Update next flexure time
                 self.force.next_flexure += self.input.ftime
-                print("   - Compute flexural isostasy %0.02f seconds" % (time.clock() - flextime))
+                # print("   - Compute flexural isostasy %0.02f seconds" % (time.clock() - flextime))
 
             # Compute wavesed parameters
             if self.tNow >= self.force.next_wave:
@@ -405,7 +405,7 @@ class Model(object):
                 self.elevation += waveED
                 self.cumdiff  += waveED
                 self.wavediff  += waveED
-                print("   - Compute wave-induced sediment transport %0.02f seconds" % (time.clock() - wavetime))
+                # print("   - Compute wave-induced sediment transport %0.02f seconds" % (time.clock() - wavetime))
                 # Update carbonate active layer
                 if nactlay is not None:
                     self.carbTIN.update_active_layer(nactlay,self.elevation)
@@ -465,7 +465,7 @@ class Model(object):
                 self.oldsed = np.copy(self.cumdiff)
                 self.next_carbStep += self.input.tCarb
 
-                print("   - Compute carbonate growth %0.02f seconds" % (time.clock() - carbtime))
+                # print("   - Compute carbonate growth %0.02f seconds" % (time.clock() - carbtime))
 
             # Update next stratal layer time
             if self.tNow >= self.force.next_layer:
@@ -539,7 +539,7 @@ class Model(object):
             self.cumflex += self.tinFlex
             # Update next flexure time
             self.force.next_flexure += self.input.ftime
-            print("   - Compute flexural isostasy %0.02f seconds" % (time.clock() - flextime))
+            # print("   - Compute flexural isostasy %0.02f seconds" % (time.clock() - flextime))
 
         # Update next stratal layer time
         if self.tNow >= self.force.next_layer:
