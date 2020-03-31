@@ -522,7 +522,7 @@ class Model(object):
                               self.cumdiff, self.cumhill, self.cumfail, self.fillH, self.disp, self.inGIDs, self.elevation, self.tNow, tStop, verbose)
 
         tloop = time.clock() - last_time
-        print('tNow = %s (%0.02f seconds)' % (self.tNow, tloop))
+        # print('tNow = %s (%0.02f seconds)' % (self.tNow, tloop))
 
         # Isostatic flexure
         if self.input.flexure:
