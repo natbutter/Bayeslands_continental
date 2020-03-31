@@ -288,7 +288,7 @@ class Model(object):
             # At most, display output every 5 seconds
             tloop = time.clock() - last_time
             if time.clock() - last_output >= 5.0:
-                print('tNow = %s (step took %0.02f seconds)' % (self.tNow, tloop))
+                # print('tNow = %s (step took %0.02f seconds)' % (self.tNow, tloop))
                 last_output = time.clock()
             last_time = time.clock()
 
