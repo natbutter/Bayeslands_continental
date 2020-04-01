@@ -829,42 +829,42 @@ class ptReplica(multiprocessing.Process):
 
             #with file(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
             
-            outfile = open(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)), "a") 
-            np.savetxt(outfile,np.array([list_xslicepred[i+1,:]]), fmt='%1.2f') 
+            outfile1 = open(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)), "a") 
+            np.savetxt(outfile1,np.array([list_xslicepred[i+1,:]]), fmt='%1.2f') 
 
             #with file(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
 
-            outfile = open(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)), "a") 
-            np.savetxt(outfile,np.array([list_yslicepred[i+1,:]]), fmt='%1.2f') 
+            outfile2 = open(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)), "a") 
+            np.savetxt(outfile2,np.array([list_yslicepred[i+1,:]]), fmt='%1.2f') 
 
             #with file(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            outfile = open(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
-            np.savetxt(outfile,np.array([save_res]), fmt='%1.2f')  
+            outfile3 = open(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
+            np.savetxt(outfile3,np.array([save_res]), fmt='%1.2f')  
 
             #with file(('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            outfile = open( ('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
-            np.savetxt(outfile,np.array([likeh_list[i + 1,0]]), fmt='%1.2f') 
+            outfile4 = open( ('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
+            np.savetxt(outfile4,np.array([likeh_list[i + 1,0]]), fmt='%1.2f') 
 
-            outfile = open( ('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
+            outfile5 = open( ('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
             #with file(('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            np.savetxt(outfile,np.array([accept_list[i+1]]), fmt='%1.2f')
+            np.savetxt(outfile5,np.array([accept_list[i+1]]), fmt='%1.2f')
 
-            outfile = open(  ('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
+            outfile6 = open(  ('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
             #with file(('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            np.savetxt(outfile,np.array([rmse_erodep[i+1,]]), fmt='%1.2f')
+            np.savetxt(outfile6,np.array([rmse_erodep[i+1,]]), fmt='%1.2f')
 
-            outfile = open( ('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
+            outfile7 = open( ('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
             #with file(('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            np.savetxt(outfile,np.array([rmse_elev[i+1,]]), fmt='%1.2f')
+            np.savetxt(outfile7,np.array([rmse_elev[i+1,]]), fmt='%1.2f')
 
-            outfile = open( ('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)), "a") 
+            outfile8 = open( ('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)), "a") 
             #with file(('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            np.savetxt(outfile, np.array([rmse_elev_ocean]), fmt='%1.2f', newline='\n')
+            np.savetxt(outfile8, np.array([rmse_elev_ocean]), fmt='%1.2f', newline='\n')
 
 
-            outfile = open( ('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)), "a") 
+            outfile9 = open( ('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)), "a") 
             #with file(('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            np.savetxt(outfile, np.array([rmse_ocean]), fmt='%1.2f', newline='\n')
+            np.savetxt(outfile9, np.array([rmse_ocean]), fmt='%1.2f', newline='\n')
 
             temp = list_erodep_time[i+1,-1,:]  
             temp = np.reshape(temp, temp.shape[0]*1) 
