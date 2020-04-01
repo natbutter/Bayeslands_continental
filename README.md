@@ -4,7 +4,7 @@
 
 ## background
 
-* https://github.com/intelligentEarth/pt-Bayeslands
+* https://github.com/intelligentEarth/pt-Bayeslands (we use this framework)
 * Multicore Parallel Tempering Bayeslands for Basin and Landscape Evolution: https://agupubs.onlinelibrary.wiley.com/doi/abs/10.1029/2019GC008465 https://arxiv.org/abs/1806.10939
 
 
