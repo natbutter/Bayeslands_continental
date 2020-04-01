@@ -524,8 +524,8 @@ class ptReplica(multiprocessing.Process):
             pred_elev = pred_elev_vec[self.simtime] 
 
 
-            real_elev_filtered = np.where((self.real_elev>0) & (self.real_elev<200), self.real_elev, 0)  
-            pred_elev_filtered = np.where((pred_elev>0) & (pred_elev<200), pred_elev, 0)
+            real_elev_filtered = np.where((self.real_elev>0) & (self.real_elev<600), self.real_elev, 0)  
+            pred_elev_filtered = np.where((pred_elev>0) & (pred_elev<600), pred_elev, 0)
 
 
             diff = pred_elev_filtered  - real_elev_filtered
@@ -536,16 +536,14 @@ class ptReplica(multiprocessing.Process):
             likelihood_elev  = np.sum(-0.5 * np.log(2 * math.pi * tau_elev ) - 0.5 * np.square(diff) / tau_elev )
             likelihood_erodep  = np.sum(-0.5 * np.log(2 * math.pi * tau_erodep ) - 0.5 * np.square(erdep_predicted - self.real_erodep_pts) / tau_erodep ) # only considers point or core of erodep    
         else:
-            likelihood_erodep  = 0
-            tau_elev = tausq
+            likelihood_erodep  = 0 
             tau_erodep = 1
-
-        #likelihood_ =  (likelihood_elev/8) +  (likelihood_erodep ) + (likelihood_elev_ocean/2) #combined lhood
+ 
 
         likelihood_ = likelihood_erodep + (likelihood_elev_ocean/4)
         #rmse_ocean = 0
          
-        rmse_elev = np.sqrt(tausq)
+        rmse_elev = np.sqrt(tau_elev)
         rmse_elev_ocean = np.average(rmse_ocean)
         rmse_erodep = np.sqrt(tau_erodep) 
         rmse_elev_pts = np.sqrt(tau_elev) 
