@@ -822,8 +822,10 @@ class ptReplica(multiprocessing.Process):
             #with file(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
             #np.savetxt(outfile,np.array([pos_param[i+1,:]]), fmt='%1.8f') 
 
-            outfile = open(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)), "a") 
-            np.savetxt(outfile,np.array([pos_param[i+1,:]]), fmt='%1.8f') 
+            outfilex = open(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)), "a") 
+            x = np.array([pos_param[i+1,:]])
+            print(x, ' x --- pos')
+            np.savetxt(outfilex,x, fmt='%1.8f') 
 
             #with file(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
             
@@ -870,8 +872,8 @@ class ptReplica(multiprocessing.Process):
             #file_name = self.folder + '/posterior/predicted_topo/sed/chain_' + str(self.temperature) + '.txt'
             #with file(file_name ,'a') as outfile:
 
-            outfile = open( (self.folder + '/posterior/predicted_topo/sed/chain_' + str(self.temperature) + '.txt'), "a") 
-            np.savetxt(outfile, np.array([temp]), fmt='%1.2f') 
+            outfile10 = open( (self.folder + '/posterior/predicted_topo/sed/chain_' + str(self.temperature) + '.txt'), "a") 
+            np.savetxt(outfile10, np.array([temp]), fmt='%1.2f') 
 
         others = np.asarray([ likelihood])
         param = np.concatenate([v_current,others,np.asarray([self.temperature])])  
