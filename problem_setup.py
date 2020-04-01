@@ -10,6 +10,8 @@ import time
 import numpy as np
 from badlands.model import Model as badlandsModel
 
+#from pyBadlands.model import Model as badlandsModel
+
 import pickle
 
 def problem_setup(problem = 1):

@@ -47,7 +47,7 @@ from scipy.spatial import cKDTree
 from scipy import stats 
 from badlands.model import Model as badlandsModel
 import badlands
-# print('\n\n\n\n\n',badlands.model.__file__, '\n\n\n\n\n')
+print('\n\n\n\n\n',badlands.model.__file__, '\n\n\n\n\n')
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D
 from IPython.display import HTML
@@ -673,7 +673,7 @@ class ptReplica(multiprocessing.Process):
         pt_samplesratio = 0.35 # this means pt will be used in begiining and then mcmc with temp of 1 will take place
         pt_samples = int(pt_samplesratio * samples)
 
-        with file(('%s/experiment_setting.txt' % (self.folder)),'a') as outfile:
+        '''with file(('%s/experiment_setting.txt' % (self.folder)),'a') as outfile:
             outfile.write('\nsamples_per_chain:,{0}'.format(self.samples))
             outfile.write('\nburnin:,{0}'.format(self.burn_in))
             outfile.write('\nnum params:,{0}'.format(self.num_param))
@@ -684,7 +684,7 @@ class ptReplica(multiprocessing.Process):
             outfile.write('\nsim interval:,{0}'.format(self.sim_interval))
             outfile.write('\nlikelihood_sed (T/F):,{0}'.format(self.check_likelihood_sed))
             outfile.write('\nerodep_coords,elev_coords:,{0}'.format(self.erodep_coords))
-            outfile.write('\nsed scaling factor:,{0}'.format(self.sedscalingfactor))
+            outfile.write('\nsed scaling factor:,{0}'.format(self.sedscalingfactor))'''
         
         start = time.time() 
         self.event.clear()
@@ -820,43 +820,45 @@ class ptReplica(multiprocessing.Process):
          
             save_res =  np.array([i, num_accepted, likelihood, likelihood_proposal, rmse_elev[i+1,], rmse_erodep[i+1,]])  
 
-            with file(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([pos_param[i+1,:]]), fmt='%1.8f') 
+            outfile = open(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)), "a") 
+            np.savetxt(outfile,np.array([pos_param[i+1,:]]), fmt='%1.8f') 
 
-            with file(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([list_xslicepred[i+1,:]]), fmt='%1.2f') 
+            #with file(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            
+            outfile = open(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)), "a") 
+            np.savetxt(outfile,np.array([list_xslicepred[i+1,:]]), fmt='%1.2f') 
 
-            with file(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([list_yslicepred[i+1,:]]), fmt='%1.2f') 
+            #with file(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile,np.array([list_yslicepred[i+1,:]]), fmt='%1.2f') 
 
-            with file(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([save_res]), fmt='%1.2f')  
+            #with file(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile,np.array([save_res]), fmt='%1.2f')  
 
-            with file(('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([likeh_list[i + 1,0]]), fmt='%1.2f') 
+            #with file(('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile,np.array([likeh_list[i + 1,0]]), fmt='%1.2f') 
 
-            with file(('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([accept_list[i+1]]), fmt='%1.2f')
+            #with file(('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile,np.array([accept_list[i+1]]), fmt='%1.2f')
 
-            with file(('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([rmse_erodep[i+1,]]), fmt='%1.2f')
+            #with file(('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile,np.array([rmse_erodep[i+1,]]), fmt='%1.2f')
 
-            with file(('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile,np.array([rmse_elev[i+1,]]), fmt='%1.2f')
+            #with file(('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile,np.array([rmse_elev[i+1,]]), fmt='%1.2f')
 
-            with file(('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile, np.array([rmse_elev_ocean]), fmt='%1.2f', newline='\n')
+            #with file(('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile, np.array([rmse_elev_ocean]), fmt='%1.2f', newline='\n')
 
 
-            with file(('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-                np.savetxt(outfile, np.array([rmse_ocean]), fmt='%1.2f', newline='\n')
+            #with file(('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            #np.savetxt(outfile, np.array([rmse_ocean]), fmt='%1.2f', newline='\n')
 
             temp = list_erodep_time[i+1,-1,:]  
             temp = np.reshape(temp, temp.shape[0]*1) 
 
             file_name = self.folder + '/posterior/predicted_topo/sed/chain_' + str(self.temperature) + '.txt'
-            with file(file_name ,'a') as outfile:
-                np.savetxt(outfile, np.array([temp]), fmt='%1.2f') 
+            #with file(file_name ,'a') as outfile:
+                #np.savetxt(outfile, np.array([temp]), fmt='%1.2f') 
 
         others = np.asarray([ likelihood])
         param = np.concatenate([v_current,others,np.asarray([self.temperature])])  
