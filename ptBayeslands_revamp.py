@@ -152,8 +152,7 @@ class ptReplica(multiprocessing.Process):
         plt.colorbar(im)
         plt.savefig(self.folder + fname+ str(int(replica_id))+'.png')
         plt.close()
-
-        return 
+ 
     def process_inittopoGMT(self, inittopo_vec):
 
         self.edit_DBF(inittopo_vec)
@@ -163,8 +162,7 @@ class ptReplica(multiprocessing.Process):
         process = subprocess.Popen(bashcommand.split(), stdout=subprocess.PIPE)
 
         output, error = process.communicate()
-
-        return
+ 
 
     def edit_DBF(self, inittopo_vec):  #edit shape file for init topo reconstruction 
 

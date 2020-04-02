@@ -158,7 +158,7 @@ class results_visualisation:
 
         rain_regiontime = self.rain_region * self.rain_time # number of parameters for rain based on  region and time  
         num_sealevel_coef =10
-        geoparam  = rain_regiontime+11  + num_sealevel_coef
+        geoparam  = rain_regiontime+12  + num_sealevel_coef
 
         mean_pos = posterior.mean(axis=1)
         std_pos = posterior.std(axis=1)
@@ -340,43 +340,24 @@ class results_visualisation:
         plt.clf()
 
     def plot3d_plotly(self, zData, fname): # same method from previous class - ptReplica
-        zmin =  zData.min() 
-        zmax =  zData.max()
+        
+   
+        fig = plt.figure()
+        im = plt.imshow(zData, cmap='hot', interpolation='nearest')
+        plt.colorbar(im)
+        plt.savefig(self.folder +  '/recons_initialtopo/'+fname+'.png')
+        plt.close()
 
-        tickvals= [0,50,75,-50]
-        height=1000
-        width=1000
-        #title='Topography'
-        resolu_factor = 1
-
-        xx = (np.linspace(0, zData.shape[0]* resolu_factor, num=zData.shape[0]/10 )) 
-        yy = (np.linspace(0, zData.shape[1] * resolu_factor, num=zData.shape[1]/10 )) 
-
-        xx = np.around(xx, decimals=0)
-        yy = np.around(yy, decimals=0)
-         
-        fnameplot = self.folder +  '/recons_initialtopo/'+fname+'.png'
  
-        plt.imshow(zData, cmap='hot', interpolation='nearest')
-        plt.savefig(fnameplot)
-        plt.clf()
 
-        data = Data([Surface(x= zData.shape[0] , y= zData.shape[1] , z=zData, colorscale='YlGnBu')])
-
-        layout = Layout(title='' , autosize=True, width=width, height=height,scene=Scene(
-                    zaxis=ZAxis(title = ' Elev.(m) ', range=[zmin,zmax], autorange=False, nticks=6, gridcolor='rgb(255, 255, 255)',
-                                gridwidth=2, zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2),
-                    xaxis=XAxis(title = ' x ',  tickvals= xx,      gridcolor='rgb(255, 255, 255)', gridwidth=2,
-                                zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2),
-                    yaxis=YAxis(title = ' y ', tickvals= yy,    gridcolor='rgb(255, 255, 255)', gridwidth=2,
-                                zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2),
-                    bgcolor="rgb(244, 244, 248)"
-                )
-            )
-
-        fig = Figure(data=data, layout=layout) 
-        graph = plotly.offline.plot(fig, auto_open=False, output_type='file', filename= self.folder +  '/recons_initialtopo/'+fname+'_.html', validate=False)
         np.savetxt(self.folder +  '/recons_initialtopo/'+fname+'_.txt', zData,  fmt='%1.2f' )
+
+
+
+ 
+
+
+
    
     def process_inittopo(self, inittopo_vec, filename):
 
@@ -397,7 +378,7 @@ class results_visualisation:
             reconstructed_topo  = self.init_elev.copy()  # to define the size 
             groundtruth_topo = self.init_elev.copy()
 
-        if problem == 1:  
+        '''if problem == 1:  
             inittopo_vec =  self.inittopo_expertknow.flatten()   +  inittopo_vec  
 
         else:
@@ -436,7 +417,7 @@ class results_visualisation:
 
         for m in range(0 , inside.shape[0]):  
             for n in range(0 ,   inside.shape[1]):  
-                groundtruth_topo[m][n]   = inside[m][n]  
+                groundtruth_topo[m][n]   = inside[m][n]  '''
  
         groundtruth_topo = gaussian_filter(reconstructed_topo, sigma=(1 ,1 )) # change sigma to higher values if needed 
 
@@ -939,7 +920,7 @@ class results_visualisation:
 
         return
 
-    def run_badlands(self, input_vector):
+    def run_badlands(self, input_vector, lhood_type):
         #Runs a badlands model with the specified inputs
 
         print(self.real_elev.shape, ' real evel sh')
@@ -1387,6 +1368,8 @@ def main():
 
     pred_erodep = np.zeros((  sim_interval.size, groundtruth_erodep_pts.shape[0])) # just to get the right size
 
+    print(pred_erodep, ' pred_erdep')
+
     #for i in range(10, sim_interval.size): 
 
         #begin = i * groundtruth_erodep_pts.shape[0] # number of points 
@@ -1401,8 +1384,7 @@ def main():
     pos_ed = pos_ed.T 
     erodep_mean = pos_ed.mean(axis=0)  
     erodep_std = pos_ed.std(axis=0)  
-    #pred_erodep[i,:] = pos_ed.mean(axis=0)
-        
+
 
     res.plot_erodeposition(erodep_mean[0:200:20] , erodep_std[ 0:200:20] , groundtruth_erodep_pts[ 0:200:20], sim_interval[sim_interval.size-1], 'first') 
     res.plot_erodeposition(erodep_mean[200:400:20], erodep_std[200:400:20], groundtruth_erodep_pts[200:400:20], sim_interval[sim_interval.size-1], 'second') 
@@ -1480,8 +1462,8 @@ def main():
     np.savetxt('variables_er.txt', variables_er)
 
 
-    pred_elev_opt, pred_erodep_opt, pred_erodep_pts_opt, pred_elev_pts_opt = res.run_badlands(error_dict[min(error_dict)],  'optimal_elev', muted =False )
-    pred_elev_opt_sed, pred_erodep_opt_sed, pred_erodep_pts_opt_sed, pred_elev_pts_opt_sed = res.run_badlands(error_dict_er[min(error_dict_er)], 'optimal_sed', muted =False )
+    pred_elev_opt, pred_erodep_opt, pred_erodep_pts_opt, pred_elev_pts_opt = res.run_badlands(error_dict[min(error_dict)],  'optimal_elev')
+    pred_elev_opt_sed, pred_erodep_opt_sed, pred_erodep_pts_opt_sed, pred_elev_pts_opt_sed = res.run_badlands(error_dict_er[min(error_dict_er)], 'optimal_sed')
     
     # pred_elev_opt, pred_erodep_opt, pred_erodep_pts_opt, pred_elev_pts_opt = res.run_badlands(variables, muted = False)
 
