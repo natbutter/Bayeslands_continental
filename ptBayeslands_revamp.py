@@ -1,4 +1,4 @@
-#Main Contributers:   Rohitash Chandra and Ratneel Deo  Email: c.rohitash@gmail.com, deo.ratneel@gmail.com
+#Main Contributers:   Rohitash Chandra and Danial Azam  Email: c.rohitash@gmail.com 
 
 # Bayeslands II: Parallel tempering for multi-core systems - Badlands
 
@@ -46,8 +46,7 @@ from matplotlib.collections import PatchCollection
 from scipy.spatial import cKDTree
 from scipy import stats 
 from badlands.model import Model as badlandsModel
-import badlands
-print('\n\n\n\n\n',badlands.model.__file__, '\n\n\n\n\n')
+import badlands 
 from mpl_toolkits.axes_grid1 import make_axes_locatable
 from mpl_toolkits.mplot3d import Axes3D
 from IPython.display import HTML
@@ -56,7 +55,7 @@ from scipy.ndimage import filters
 from scipy.ndimage import gaussian_filter
 from problem_setup import problem_setup
 import subprocess
-# from dbfpy import dbf
+#from dbfpy import dbf
 from process_Uplift import edit_Uplift, process_Uplift
 import pickle
 
@@ -145,40 +144,15 @@ class ptReplica(multiprocessing.Process):
 
         self.Bayes_inittopoknowledge = Bayes_inittopoknowledge
 
-    def plot3d_plotly(self, zData, fname, replica_id):
-        # zmin =  zData.min() 
-        # zmax =  zData.max()
-        # tickvals= [0,50,75,-50]
-        # height=1000
-        # width=1000
-        # title='Topography'
-        # resolu_factor = 1
+    def init_show(self, zData, fname, replica_id): 
+ 
 
-        # xx = (np.linspace(0, int(zData.shape[0]* resolu_factor), num=int(zData.shape[0]/10 ))) 
-        # yy = (np.linspace(0, int(zData.shape[1] * resolu_factor), num=int(zData.shape[1]/10) )) 
+        fig = plt.figure()
+        im = plt.imshow(zData, cmap='hot', interpolation='nearest')
+        plt.colorbar(im)
+        plt.savefig(self.folder + fname+ str(int(replica_id))+'.png')
+        plt.close()
 
-        # # xx = (np.linspace(0, zData.shape[0]* resolu_factor, num=zData.shape[0]/10 )) 
-        # # yy = (np.linspace(0, zData.shape[1] * resolu_factor, num=zData.shape[1]/10 )) 
-
-        # xx = np.around(xx, decimals=0)
-        # yy = np.around(yy, decimals=0) 
-
-        # data = Data([Surface(x= zData.shape[0] , y= zData.shape[1] , z=zData, colorscale='YlGnBu')])
-
-        # layout = Layout(title='Predicted Topography' , autosize=True, width=width, height=height,scene=Scene(
-        #             zaxis=ZAxis(title = ' Elev.(m) ', range=[zmin,zmax], autorange=False, nticks=6, gridcolor='rgb(255, 255, 255)',
-        #                         gridwidth=2, zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2),
-        #             xaxis=XAxis(title = ' x ',  tickvals= xx,      gridcolor='rgb(255, 255, 255)', gridwidth=2,
-        #                         zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2),
-        #             yaxis=YAxis(title = ' y ', tickvals= yy,    gridcolor='rgb(255, 255, 255)', gridwidth=2,
-        #                         zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2),
-        #             bgcolor="rgb(244, 244, 248)"
-        #         )
-        #     )
-
-        # fig = Figure(data=data, layout=layout) 
-
-        # graph = plotly.offline.plot(fig, auto_open=False, output_type='file', filename= self.folder +  fname+ str(int(replica_id))+'.html', validate=False)
         return 
     def process_inittopoGMT(self, inittopo_vec):
 
@@ -331,22 +305,16 @@ class ptReplica(multiprocessing.Process):
             # edit_Uplift(self.ID, dummy_file)
             # process_Uplift(self.ID)
 
-            # self.process_inittopoGMT(inittopo_vec)  
+            #self.process_inittopoGMT(inittopo_vec)  
             init_filename='init_topo_polygon/Paleotopo_P100_50km_prec2_'+ str(int(self.ID)) +'.csv' 
             # upl_filename = 'AUS/%s/AUS001.xml'%(self.ID)
             #elev_framex = np.vstack((model.recGrid.rectX,model.recGrid.rectY,inittopo_estimate.flatten()))
             #np.savetxt(filename, elev_framex.T, fmt='%1.2f' ) 
-           
-            # print
-            # model.load_xml(upl_filename, muted = True)
-            # print('New XML file loaded :', upl_filename)
+            
             model.input.demfile=init_filename
 
             model.build_mesh(model.input.demfile, verbose=False)
-
-        # Adjust precipitation values based on given parameter
-        #print(input_vector[0:rain_regiontime] )
-        # model.force.rainVal  = input_vector[0:rain_regiontime-1] 
+ 
 
         # Adjust erodibility based on given parameter
         model.input.SPLero = input_vector[rain_regiontime]  
@@ -387,7 +355,7 @@ class ptReplica(multiprocessing.Process):
         model.run_to_time(-1.489999e08, muted = True)
         elev_, erodep_ = interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff) 
 
-        self.plot3d_plotly(elev_, '/pred_plots/GMTinit_', self.ID )   
+        self.init_show(elev_, '/pred_plots/GMTinit_', self.ID )   
 
 
 
@@ -818,60 +786,42 @@ class ptReplica(multiprocessing.Process):
          
             save_res =  np.array([i, num_accepted, likelihood, likelihood_proposal, rmse_elev[i+1,], rmse_erodep[i+1,]])  
 
-
-            #with file(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            #np.savetxt(outfile,np.array([pos_param[i+1,:]]), fmt='%1.8f') 
+ 
 
             outfilex = open(('%s/posterior/pos_parameters/stream_chain_%s.txt' % (self.folder, self.temperature)), "a") 
-            x = np.array([pos_param[i+1,:]])
-            print(x, ' x --- pos')
-            np.savetxt(outfilex,x, fmt='%1.8f') 
+            x = np.array([pos_param[i+1,:]]) 
+            np.savetxt(outfilex,x, fmt='%1.8f')  
 
-            #with file(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            
             outfile1 = open(('%s/posterior/predicted_topo/x_slice/stream_xslice_%s.txt' % (self.folder, self.temperature)), "a") 
-            np.savetxt(outfile1,np.array([list_xslicepred[i+1,:]]), fmt='%1.2f') 
-
-            #with file(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            np.savetxt(outfile1,np.array([list_xslicepred[i+1,:]]), fmt='%1.2f')  
 
             outfile2 = open(('%s/posterior/predicted_topo/y_slice/stream_yslice_%s.txt' % (self.folder, self.temperature)), "a") 
             np.savetxt(outfile2,np.array([list_yslicepred[i+1,:]]), fmt='%1.2f') 
-
-            #with file(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+ 
             outfile3 = open(('%s/posterior/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
             np.savetxt(outfile3,np.array([save_res]), fmt='%1.2f')  
-
-            #with file(('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+ 
             outfile4 = open( ('%s/performance/lhood/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
             np.savetxt(outfile4,np.array([likeh_list[i + 1,0]]), fmt='%1.2f') 
 
-            outfile5 = open( ('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
-            #with file(('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            outfile5 = open( ('%s/performance/accept/stream_res_%s.txt' % (self.folder, self.temperature)), "a")  
             np.savetxt(outfile5,np.array([accept_list[i+1]]), fmt='%1.2f')
 
-            outfile6 = open(  ('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
-            #with file(('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            outfile6 = open(  ('%s/performance/rmse_erdp/stream_res_%s.txt' % (self.folder, self.temperature)), "a")  
             np.savetxt(outfile6,np.array([rmse_erodep[i+1,]]), fmt='%1.2f')
 
-            outfile7 = open( ('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)), "a") 
-            #with file(('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            outfile7 = open( ('%s/performance/rmse_elev/stream_res_%s.txt' % (self.folder, self.temperature)), "a")  
             np.savetxt(outfile7,np.array([rmse_elev[i+1,]]), fmt='%1.2f')
 
-            outfile8 = open( ('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)), "a") 
-            #with file(('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)),'a') as outfile:
-            np.savetxt(outfile8, np.array([rmse_elev_ocean]), fmt='%1.2f', newline='\n')
+            outfile8 = open( ('%s/performance/rmse_ocean/stream_res_ocean%s.txt' % (self.folder, self.temperature)), "a")  
+            np.savetxt(outfile8, np.array([rmse_elev_ocean]), fmt='%1.2f', newline='\n') 
 
-
-            outfile9 = open( ('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)), "a") 
-            #with file(('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)),'a') as outfile:
+            outfile9 = open( ('%s/performance/rmse_ocean/stream_res_ocean_t%s.txt' % (self.folder, self.temperature)), "a")  
             np.savetxt(outfile9, np.array([rmse_ocean]), fmt='%1.2f', newline='\n')
 
             temp = list_erodep_time[i+1,-1,:]  
             temp = np.reshape(temp, temp.shape[0]*1) 
-
-            #file_name = self.folder + '/posterior/predicted_topo/sed/chain_' + str(self.temperature) + '.txt'
-            #with file(file_name ,'a') as outfile:
-
+ 
             outfile10 = open( (self.folder + '/posterior/predicted_topo/sed/chain_' + str(self.temperature) + '.txt'), "a") 
             np.savetxt(outfile10, np.array([temp]), fmt='%1.2f') 
 
