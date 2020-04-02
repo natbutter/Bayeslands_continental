@@ -338,11 +338,13 @@ class ptReplica(multiprocessing.Process):
             model.input.diffprop = input_vector[rain_regiontime+10]
 
 
-        sealevel_coeff = input_vector[rain_regiontime+10 : rain_regiontime+10+ num_sealevel_coef] 
+        sealevel_coeff = input_vector[rain_regiontime+12 : rain_regiontime+12+ num_sealevel_coef] 
+
+        print(sealevel_coeff, ' sealevel_coeff ')
  
  
 
-        # model.input.curve = self.process_sealevel(sealevel_coeff)
+        model.input.curve = self.process_sealevel(sealevel_coeff)
  
         elev_vec = collections.OrderedDict()
         erodep_vec = collections.OrderedDict()
@@ -531,8 +533,8 @@ class ptReplica(multiprocessing.Process):
 
         #This is a chain that is distributed to many cores. AKA a 'Replica' in Parallel Tempering
 
-        self.plot3d_plotly(self.real_elev, '/recons_initialtopo/real_evel', 1)
-        self.plot3d_plotly(self.init_elev, '/recons_initialtopo/expert_inittopo', 1)
+        self.init_show(self.real_elev, '/recons_initialtopo/real_evel', 1)
+        self.init_show(self.init_elev, '/recons_initialtopo/expert_inittopo', 1)
 
         if problem ==2: 
             fnameplot = self.folder +  '/recons_initialtopo/'+'scatter_erodep_.png' 
