@@ -286,7 +286,7 @@ class ptReplica(multiprocessing.Process):
 
         if init == True:
 
-            geoparam  = num_sealevel_coef + rain_regiontime+12  # note 10 parameter space is for erod, c-marine etc etc, some extra space ( taking out time dependent rainfall)
+            geoparam  = num_sealevel_coef + rain_regiontime+13  # note 10 parameter space is for erod, c-marine etc etc, some extra space ( taking out time dependent rainfall)
 
 
             inittopo_vec = input_vector[geoparam:]
