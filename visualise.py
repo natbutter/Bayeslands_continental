@@ -121,7 +121,9 @@ class results_visualisation:
         self.vec_parameters = vec_parameters
         #self.realvalues  =  realvalues_vec 
         self.burn_in = burn_in
-        self.input = xmlinput
+        self.input = ['Examples/australia/AUSP1307.xml','Examples/australia/AUSP1309.xml', 'Examples/australia/AUSP1310.xml',
+        'Examples/australia/AUSP1311.xml','Examples/australia/AUSP1312.xml', 'Examples/australia/AUSP1313.xml', 'Examples/australia/AUSP1314.xml',
+        'Examples/australia/AUSP1315.xml']
         # create queues for transfer of parameters between process chain
         self.geometric =  True
         self.total_swap_proposals = 0
@@ -920,13 +922,50 @@ class results_visualisation:
 
         return
 
+    def interpolateArray(self,coords=None, z=None, dz=None):
+        """
+        Interpolate the irregular spaced dataset from badlands on a regular grid.
+        """
+        x, y = np.hsplit(coords, 2)
+        dx = (x[1]-x[0])[0]
+
+        if problem == 1:
+            nx = int((x.max() - x.min())/dx+1)
+            ny = int((y.max() - y.min())/dx+1)
+        else:
+            nx = int((x.max() - x.min())/dx+1 - 2)
+            ny = int((y.max() - y.min())/dx+1 - 2)
+        xi = np.linspace(x.min(), x.max(), nx)
+        yi = np.linspace(y.min(), y.max(), ny)
+
+        xi, yi = np.meshgrid(xi, yi)
+        xyi = np.dstack([xi.flatten(), yi.flatten()])[0]
+        XY = np.column_stack((x,y))
+
+        tree = cKDTree(XY)
+        distances, indices = tree.query(xyi, k=3)
+        if len(z[indices].shape) == 3:
+            z_vals = z[indices][:,:,0]
+            dz_vals = dz[indices][:,:,0]
+        else:
+            z_vals = z[indices]
+            dz_vals = dz[indices]
+
+        zi = np.average(z_vals,weights=(1./distances), axis=1)
+        dzi = np.average(dz_vals,weights=(1./distances), axis=1)
+        onIDs = np.where(distances[:,0] == 0)[0]
+        if len(onIDs) > 0:
+            zi[onIDs] = z[indices[onIDs,0]]
+            dzi[onIDs] = dz[indices[onIDs,0]]
+        zreg = np.reshape(zi,(ny,nx))
+        dzreg = np.reshape(dzi,(ny,nx))
+        return zreg,dzreg
+
     def run_badlands(self, input_vector, lhood_type):
         #Runs a badlands model with the specified inputs
 
         print(self.real_elev.shape, ' real evel sh')
-
-
-        print(self.real_elev_pts.shape, ' real evel pt sh')
+ 
  
         rain_regiontime = self.rain_region * self.rain_time # number of parameters for rain based on  region and time 
 
@@ -939,9 +978,11 @@ class results_visualisation:
 
         xmlinput = self.input[xml_id]
 
+        print(self.run_nb_str, xmlinput, ' self.run_nb_str')
+
         #----------------------------------------------------------------
         # Load the XmL input file
-        model.load_xml(str(self.run_nb), xmlinput, verbose =False, muted = True)
+        model.load_xml(str(self.run_nb_str), xmlinput, verbose =False, muted = True)
         
         init = False
 
@@ -1016,7 +1057,7 @@ class results_visualisation:
 
 
         model.run_to_time(-1.489999e08, muted = True)
-        elev_, erodep_ = interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff) 
+        elev_, erodep_ = self.interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff) 
 
      
 
@@ -1026,7 +1067,7 @@ class results_visualisation:
             self.simtime = self.sim_interval[x]
             model.run_to_time(self.simtime, muted = True)
 
-            elev, erodep = interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff)
+            elev, erodep = self.interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff)
 
             erodep_pts = np.zeros(self.erodep_coords.shape[0])
             elev_pts = np.zeros(self.elev_coords.shape[0])
@@ -1037,8 +1078,7 @@ class results_visualisation:
             for count, val in enumerate(self.elev_coords):
                 elev_pts[count] = elev[val[0], val[1]]
  
-
-            print('Sim time: ', self.simtime  , "   Temperature: ", self.temperature)
+ 
             elev_vec[self.simtime] = elev
             erodep_vec[self.simtime] = erodep
             erodep_pts_vec[self.simtime] = erodep_pts
@@ -1157,7 +1197,7 @@ class results_visualisation:
 
     def viewGrid(self, width=1000, height=1000, zmin=None, zmax=None, zData=None, title='Predicted Topography', time_frame=None, filename=None):
 
-        if zmin == None:
+        '''if zmin == None:
             zmin =  zData.min()
 
         if zmax == None:
@@ -1207,7 +1247,16 @@ class results_visualisation:
 
         plt.tight_layout()  
         plt.savefig(fname )
-        plt.clf()
+        plt.clf()'''
+
+        filename= self.folder +  '/pred_plots'+ '/pred_'+filename+'_'+str(time_frame)+ '_.png'
+
+
+        fig = plt.figure()
+        im = plt.imshow(zData, cmap='hot', interpolation='nearest')
+        plt.colorbar(im)
+        plt.savefig(filename)
+        plt.close()
 
     def plot_erodeposition(self, erodep_mean, erodep_std, groundtruth_erodep_pts, sim_interval, fname):
         ticksize = 13
