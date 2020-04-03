@@ -303,7 +303,7 @@ class ptReplica(multiprocessing.Process):
             # edit_Uplift(self.ID, dummy_file)
             # process_Uplift(self.ID)
 
-            #self.process_inittopoGMT(inittopo_vec)  
+            self.process_inittopoGMT(inittopo_vec)  
             init_filename='init_topo_polygon/Paleotopo_P100_50km_prec2_'+ str(int(self.ID)) +'.csv' 
             # upl_filename = 'AUS/%s/AUS001.xml'%(self.ID)
             #elev_framex = np.vstack((model.recGrid.rectX,model.recGrid.rectY,inittopo_estimate.flatten()))
@@ -311,7 +311,7 @@ class ptReplica(multiprocessing.Process):
             
             model.input.demfile=init_filename
 
-            model.build_mesh(model.input.demfile, verbose=False)
+            model._build_mesh(model.input.demfile, verbose=False)
  
 
         # Adjust erodibility based on given parameter

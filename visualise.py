@@ -1197,57 +1197,7 @@ class results_visualisation:
 
     def viewGrid(self, width=1000, height=1000, zmin=None, zmax=None, zData=None, title='Predicted Topography', time_frame=None, filename=None):
 
-        '''if zmin == None:
-            zmin =  zData.min()
-
-        if zmax == None:
-            zmax =  zData.max()
-
-        tickvals= [0,50,75,-50]
-
-        xx = (np.linspace(0, zData.shape[0]* self.resolu_factor, num=zData.shape[0]/10 )) 
-        yy = (np.linspace(0, zData.shape[1] * self.resolu_factor, num=zData.shape[1]/10 )) 
-
-        xx = np.around(xx, decimals=0)
-        yy = np.around(yy, decimals=0)
-        
-        axislabelsize = 20
-
-        data = Data([Surface(x= zData.shape[0] , y= zData.shape[1] , z=zData, colorscale='YlGnBu')])
-
-        layout = Layout(  autosize=True, width=width, height=height,scene=Scene(
-                    zaxis=ZAxis(title = 'Elev.   ', range=[zmin,zmax], autorange=False, nticks=5, gridcolor='rgb(255, 255, 255)',
-                                gridwidth=2, zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2, showticklabels = True,  titlefont=dict(size=axislabelsize),  tickfont=dict(size=14 ),),
-                    xaxis=XAxis(title = 'x-axis  ',  tickvals= xx,      gridcolor='rgb(255, 255, 255)', gridwidth=2,
-                                zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2, showticklabels = True,  titlefont=dict(size=axislabelsize),  tickfont=dict(size=14 ),),
-                    yaxis=YAxis(title = 'y-axis  ', tickvals= yy,    gridcolor='rgb(255, 255, 255)', gridwidth=2,
-                                zerolinecolor='rgb(255, 255, 255)', zerolinewidth=2, showticklabels = True,  titlefont=dict(size=axislabelsize),  tickfont=dict(size=14 ),),
-                    bgcolor="rgb(244, 244, 248)"
-                )
-            )
-
-        fig = Figure(data=data, layout=layout) 
-        graph = plotly.offline.plot(fig, auto_open=False, output_type='file', filename= self.folder +  '/pred_plots'+ '/pred_'+filename+'_'+str(time_frame)+ '_.html', validate=False)
-
-        fname = self.folder + '/pred_plots'+'/pred_'+filename+'_'+str(time_frame)+ '_.pdf' 
-        elev_data = np.reshape(zData, zData.shape[0] * zData.shape[1] )   
-        hist, bin_edges = np.histogram(elev_data, density=True)
-
-        size = 15 
-        plt.tick_params(labelsize=size)
-        params = {'legend.fontsize': size, 'legend.handlelength': 2}
-        plt.rcParams.update(params)
-        plt.hist(elev_data, bins='auto')  
-
-        #plt.title("Topography")  
-        plt.xlabel('Elevation (m)', fontsize = size)
-        plt.ylabel('Frequency', fontsize = size)
-        plt.grid(alpha=0.75)
-
-
-        plt.tight_layout()  
-        plt.savefig(fname )
-        plt.clf()'''
+       
 
         filename= self.folder +  '/pred_plots'+ '/pred_'+filename+'_'+str(time_frame)+ '_.png'
 
