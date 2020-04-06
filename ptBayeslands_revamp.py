@@ -268,11 +268,11 @@ class ptReplica(multiprocessing.Process):
         #Create a badlands model instance
         model = badlandsModel()
 
-        xml_id = int(input_vector[11]/10)
+        xml_id = self.ID #int(input_vector[11]/10)
 
         print(xml_id, input_vector[11], ' xml_id  input_vector[11]')
 
-        xmlinput = self.input[xml_id]
+        xmlinput =  self.input[xml_id]
 
         #----------------------------------------------------------------
         # Load the XmL input file
