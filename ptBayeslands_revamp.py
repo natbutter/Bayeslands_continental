@@ -55,7 +55,8 @@ from scipy.ndimage import filters
 from scipy.ndimage import gaussian_filter
 from problem_setup import problem_setup
 import subprocess
-#from dbfpy import dbf
+# from dbfpy import dbf
+import dbf
 from process_Uplift import edit_Uplift, process_Uplift
 import pickle
 
@@ -169,31 +170,41 @@ class ptReplica(multiprocessing.Process):
         expert_know = np.loadtxt('init_topo_polygon/dbf_polygon.txt')
         print(expert_know, ' is loaded expert knowledge for Chain %s' %(self.ID))
      
+        ## DBFPY IMPLEMENTATION
 
-        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(self.ID))
+        # db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(self.ID))
     
-        for i,rec in enumerate(db):
+        # for i,rec in enumerate(db):
             
+        #     if rec[0] == "Uplands":
+        #         rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
+        #         rec.store()
+        #         del rec
+        #     elif rec[0] == "Land unclassified":
+        #         rec["ELEVATION"] = (inittopo_vec[i]*(0.25*700)) + expert_know[i]
+        #         rec.store()
+        #         del rec
+        #     elif rec[0] == "Land":
+        #         rec["ELEVATION"] = (inittopo_vec[i]*(0.25*600)) + expert_know[i]
+        #         rec.store()
+        #         del rec
+        #     elif rec[0] == "Land erosional":
+        #         rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
+        #         rec.store()
+        #         del rec
+        #     else:
+        #         pass
+        #         # Do Nothing
+        # db.close()
+        
+        table = dbf.Table(filename = 'init_topo_polygon/data/%s/Paleotopo_P100.dbf'%(self.ID))
+        table.open()
+        for rec in table:
             if rec[0] == "Uplands":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
-                rec.store()
-                del rec
-            elif rec[0] == "Land unclassified":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*700)) + expert_know[i]
-                rec.store()
-                del rec
-            elif rec[0] == "Land":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*600)) + expert_know[i]
-                rec.store()
-                del rec
-            elif rec[0] == "Land erosional":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
-                rec.store()
-                del rec
-            else:
-                pass
-                # Do Nothing
-        db.close()
+                print('Found Uplands \n\n')
+            # else:
+            #     print('Didnt find uplands, but found ', rec[0])            # print('rec:', rec)
+
 
         return
 
@@ -278,7 +289,7 @@ class ptReplica(multiprocessing.Process):
         # Load the XmL input file
         model.load_xml(str(self.run_nb), xmlinput, verbose =False, muted = True)
         
-        init = False
+        init = True
 
         num_sealevel_coef = 10
 
