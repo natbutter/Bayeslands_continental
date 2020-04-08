@@ -1,4 +1,5 @@
-from dbfpy import dbf
+# from dbfpy import dbf
+from dbfpy3 import dbf
 import numpy as np
 # from dbfpy import *
 
@@ -91,9 +92,27 @@ def edit_DBF():
 			# Do Nothing
 	db.close()
 
+def print_dbf():
+	db = dbf.Dbf("init_topo_polygon/data/Original/Paleotopo_P100.dbf")
+	
+	for i,rec in enumerate(db):	
+		print('Poly:',i, rec[0], rec[1])
 
 def main():
 	generateElevPolygon()
+	
+	# print_dbf()
+	
+	# print('\nDone printing\n')
+
 	# edit_DBF()
+
+	# print('\nDone editing\n')
+
+
+	# print_dbf()
+
+	# print('\nDone printing\n')
+
 
 if __name__ == "__main__": main()
