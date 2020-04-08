@@ -55,8 +55,8 @@ from scipy.ndimage import filters
 from scipy.ndimage import gaussian_filter
 from problem_setup import problem_setup
 import subprocess
-# from dbfpy import dbf
-import dbf
+from dbfpy import dbf
+#import dbf
 from process_Uplift import edit_Uplift, process_Uplift
 import pickle
 
@@ -279,7 +279,7 @@ class ptReplica(multiprocessing.Process):
         #Create a badlands model instance
         model = badlandsModel()
 
-        xml_id = self.ID #int(input_vector[11]/10)
+        xml_id =  int(input_vector[11]/10)
 
         print(xml_id, input_vector[11], ' xml_id  input_vector[11]')
 
