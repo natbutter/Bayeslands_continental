@@ -184,30 +184,27 @@ class ptReplica(multiprocessing.Process):
         for i,rec in enumerate(db):
             
             if rec[0] == "Uplands":
+ 
                 rec["ELEVATION"] = (inittopo_vec[x]*(0.25*1500)) + expert_know[i]
-
-                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ')
+ 
                 x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land unclassified":
                 rec["ELEVATION"] = (inittopo_vec[x]*(0.25*700)) + expert_know[i]      
-
-                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ') 
+ 
                 x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land":
                 rec["ELEVATION"] = (inittopo_vec[x]*(0.25*600)) + expert_know[i]
-
-                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ')
+ 
                 x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land erosional":
                 rec["ELEVATION"] = (inittopo_vec[x]*(0.25*1500)) + expert_know[i]
-
-                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ')
+ 
                 x = x + 1
                 rec.store()
                 del rec
