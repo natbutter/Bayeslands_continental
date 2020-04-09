@@ -20,6 +20,8 @@
 * pip3  install tribad
 * pip3 install gFlex
 * pip3 install badlands/  (do sudo if needed)
+* git clone https://github.com/phargogh/dbfpy3.git
+* pip install dbfpy3/
 
 ### run
 * run_uplift.sh
