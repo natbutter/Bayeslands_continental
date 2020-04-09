@@ -168,12 +168,14 @@ class ptReplica(multiprocessing.Process):
 
     def edit_DBF(self, inittopo_vec):  #edit shape file for init topo reconstruction 
 
-        expert_know = np.loadtxt('init_topo_polygon/dbf_polygon.txt')
+        # expert_know = np.loadtxt('init_topo_polygon/dbf_polygon.txt')
+        expert_know = np.loadtxt('init_topo_polygon/polygon_elev.txt')
+        
         print(expert_know, ' is loaded expert knowledge for Chain %s' %(self.ID))
      
         # DBFPY IMPLEMENTATION
-        print(' SHAPE OF INITOPO VEC', inittopo_vec.shape)
-        print(' SHAPE OF EXPERT KNOWLEDGE', expert_know.shape)
+        # print(' SHAPE OF INITOPO VEC', inittopo_vec.shape)
+        # print(' SHAPE OF EXPERT KNOWLEDGE', expert_know.shape)
         
         db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(self.ID))
 
