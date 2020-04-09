@@ -178,23 +178,37 @@ class ptReplica(multiprocessing.Process):
         # print(' SHAPE OF EXPERT KNOWLEDGE', expert_know.shape)
         
         db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(self.ID))
+
+        x = 0
     
         for i,rec in enumerate(db):
             
             if rec[0] == "Uplands":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*1500)) + expert_know[i]
+
+                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ')
+                x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land unclassified":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*700)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*700)) + expert_know[i]      
+
+                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ') 
+                x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*600)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*600)) + expert_know[i]
+
+                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ')
+                x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land erosional":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*1500)) + expert_know[i]
+
+                print(rec[0], rec["ELEVATION"], i, x, '   rec["ELEVATION"] ')
+                x = x + 1
                 rec.store()
                 del rec
             else:
@@ -295,6 +309,8 @@ class ptReplica(multiprocessing.Process):
 
 
             inittopo_vec = input_vector[geoparam:]
+
+            print(inittopo_vec, ' inittopo_vec')
 
             filename=xmlinput.split("/")
             problem_folder=filename[0]+"/"+filename[1]+"/"
