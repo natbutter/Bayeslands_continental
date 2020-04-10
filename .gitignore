@@ -48,6 +48,5 @@ pyBadlands/libUtils/*.o
 pyBadlands/simulation/*.pyc
 pyBadlands/*/*.pyc
 
-
-init_topo_polygon 
+ 
 init_topo_polygon/*.csv
