@@ -180,16 +180,16 @@ def problem_setup(problem = 1):
         #----------------------------------------InitTOPO
 
         epsilon = 0.5 
-        inittopo_gridlen = 5  # should be of same format as @   inittopo_expertknow
-        inittopo_gridwidth = 5
+        inittopo_gridlen = 7  # should be of same format as @   inittopo_expertknow
+        inittopo_gridwidth = 7
 
         len_grid = int(groundtruth_elev.shape[0]/inittopo_gridlen)  # take care of left over
         wid_grid = int(groundtruth_elev.shape[1]/inittopo_gridwidth)   # take care of left over
 
         print(len_grid, wid_grid, groundtruth_elev.shape[0], groundtruth_elev.shape[1] ,'  sub_gridlen, sub_gridwidth   ------------ ********')
          
-        inittopo_minlimits = np.repeat(-1 , 25)
-        inittopo_maxlimits = np.repeat(1 , 25)
+        inittopo_minlimits = np.repeat(-1 , 49)
+        inittopo_maxlimits = np.repeat(1 , 49)
 
         sealevel_max = [0.2,0.2,0.3,0.3,0.40,0.40,0.45,0.45,0.5,0.5] 
  
