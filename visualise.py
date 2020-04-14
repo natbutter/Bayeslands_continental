@@ -895,7 +895,7 @@ class results_visualisation:
         # print(expert_know, ' is loaded expert knowledge for Chain %s' %(self.ID))
 
 
-        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(lhood_type))
+        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P400.dbf"%(lhood_type))
 
         for i,rec in enumerate(db):
 

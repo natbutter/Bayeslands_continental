@@ -177,7 +177,7 @@ class ptReplica(multiprocessing.Process):
         # print(' SHAPE OF INITOPO VEC', inittopo_vec.shape)
         # print(' SHAPE OF EXPERT KNOWLEDGE', expert_know.shape)
         
-        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(self.ID))
+        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P400.dbf"%(self.ID))
     
         for i,rec in enumerate(db):
             

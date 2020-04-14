@@ -193,7 +193,7 @@ class ptReplica(multiprocessing.Process):
         print(expert_know, ' is loaded expert knowledge for Chain %s' %(self.ID))
      
 
-        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P100.dbf"%(self.ID))
+        db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P400.dbf"%(self.ID))
     
         for i,rec in enumerate(db):
             
