@@ -179,22 +179,28 @@ class ptReplica(multiprocessing.Process):
         
         db = dbf.Dbf("init_topo_polygon/data/%s/Paleotopo_P400.dbf"%(self.ID))
     
+        x = 0
+    
         for i,rec in enumerate(db):
             
             if rec[0] == "Uplands":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*1500)) + expert_know[i]
+                x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land unclassified":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*700)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*700)) + expert_know[i]      
+                x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*600)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*600)) + expert_know[i]
+                x = x + 1
                 rec.store()
                 del rec
             elif rec[0] == "Land erosional":
-                rec["ELEVATION"] = (inittopo_vec[i]*(0.25*1500)) + expert_know[i]
+                rec["ELEVATION"] = (inittopo_vec[x]*(0.25*1500)) + expert_know[i]
+                x = x + 1
                 rec.store()
                 del rec
             else:
