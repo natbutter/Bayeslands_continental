@@ -148,7 +148,6 @@ class ptReplica(multiprocessing.Process):
 
     def init_show(self, zData, fname, replica_id): 
  
-
         fig = plt.figure()
         im = plt.imshow(zData, cmap='hot', interpolation='nearest')
         plt.colorbar(im)

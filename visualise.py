@@ -982,7 +982,7 @@ class results_visualisation:
 
         #----------------------------------------------------------------
         # Load the XmL input file
-        model.load_xml(str(self.run_nb_str), xmlinput, verbose =False, muted = True)
+        model.load_xml(str(self.run_nb_str), xmlinput, verbose =False, muted = False)
         
         init = False
 
@@ -1056,7 +1056,7 @@ class results_visualisation:
 
 
 
-        model.run_to_time(-1.489999e08, muted = True)
+        model.run_to_time(-1.489999e08, muted = False)
         elev_, erodep_ = self.interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff) 
 
      
@@ -1065,7 +1065,7 @@ class results_visualisation:
 
         for x in range(len(self.sim_interval)):
             self.simtime = self.sim_interval[x]
-            model.run_to_time(self.simtime, muted = True)
+            model.run_to_time(self.simtime, muted = False)
 
             elev, erodep = self.interpolateArray(model.FVmesh.node_coords[:, :2], model.elevation, model.cumdiff)
 
