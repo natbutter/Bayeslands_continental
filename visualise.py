@@ -153,7 +153,7 @@ class results_visualisation:
         np.savetxt(self.folder+'/optimal_percentile_para.txt', np.array([optimal_para, para_5thperc, para_95thperc]) )
 
         #for s in range(self.num_param): 
-        for s in range(30): # change this if you want to see all pos plots
+        for s in range(self.vec_parameters.size): # change this if you want to see all pos plots
             self.plot_figure(posterior[s,:], 'pos_distri_'+str(s) ) 
 
     
@@ -354,13 +354,6 @@ class results_visualisation:
 
         np.savetxt(self.folder +  '/recons_initialtopo/'+fname+'_.txt', zData,  fmt='%1.2f' )
 
-
-
- 
-
-
-
-   
     def process_inittopo(self, inittopo_vec, filename):
 
         length = self.real_elev.shape[0]
@@ -965,8 +958,6 @@ class results_visualisation:
         #Runs a badlands model with the specified inputs
 
         print(self.real_elev.shape, ' real evel sh')
- 
- 
         rain_regiontime = self.rain_region * self.rain_time # number of parameters for rain based on  region and time 
 
         #Create a badlands model instance
@@ -1197,11 +1188,7 @@ class results_visualisation:
         return elev_vec, erodep_vec, erodep_pts_vec, elev_pts_vec'''
 
     def viewGrid(self, width=1000, height=1000, zmin=None, zmax=None, zData=None, title='Predicted Topography', time_frame=None, filename=None):
-
-       
-
         filename= self.folder +  '/pred_plots'+ '/pred_'+filename+'_'+str(time_frame)+ '_.png'
-
 
         fig = plt.figure()
         im = plt.imshow(zData, cmap='hot', interpolation='nearest')
@@ -1250,8 +1237,6 @@ def mean_sqerror(  pred_erodep,   real_erodep_pts):
 def make_directory (directory): 
     if not os.path.exists(directory):
         os.makedirs(directory)
-
-
 
 def main():
 
@@ -1352,20 +1337,6 @@ def main():
 
     print(erodep_pts.shape, ' erodep_pts.shape -----------------------------------------------------------------------------')
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     pred_erodep = np.zeros((  sim_interval.size, groundtruth_erodep_pts.shape[0])) # just to get the right size
 
     print(pred_erodep, ' pred_erdep')
@@ -1374,7 +1345,6 @@ def main():
 
         #begin = i * groundtruth_erodep_pts.shape[0] # number of points 
         #end = begin + groundtruth_erodep_pts.shape[0]
-
 
 
     begin =   0# number of points 
@@ -1420,9 +1390,7 @@ def main():
 
     time_total = (timer_end-timer_start)/60
 
-    
-
-############################################################################################
+    ############################################################################################
     np.savetxt(fname+'/rmseelev.txt', rmse_elev)
     # print ('minimum error', min(rmse_elev))
 
@@ -1497,7 +1465,7 @@ def main():
     # for i in range(res.sim_interval.size):
     #     res.viewGrid(width=1000, height=1000, zmin=None, zmax=None, zData=pred_elev_opt[res.sim_interval[i]], title='Predicted Topography ', time_frame=res.sim_interval[i],  filename= 'optimal')
 
-############################################################################################
+    ############################################################################################
     resultingfile_db = open(problemfolder+res_summaryfile,'a+')  
     swap_perc = 0 # get value later -- to do
     accept_per = 0 
@@ -1523,4 +1491,6 @@ def main():
     # res.vis_badlands_timestep(fname, 149)
     
     #stop()
+
+
 if __name__ == "__main__": main()
