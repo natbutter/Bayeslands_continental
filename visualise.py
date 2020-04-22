@@ -121,7 +121,7 @@ class results_visualisation:
         self.vec_parameters = vec_parameters
         #self.realvalues  =  realvalues_vec 
         self.burn_in = burn_in
-        self.input = ['Examples/australia/AUSP1307.xml','Examples/australia/AUSP1309.xml', 'Examples/australia/AUSP1310.xml',
+        self.input = ['Examples/australia/AUSP1400.xml','Examples/australia/AUSP1309.xml', 'Examples/australia/AUSP1310.xml',
         'Examples/australia/AUSP1311.xml','Examples/australia/AUSP1312.xml', 'Examples/australia/AUSP1313.xml', 'Examples/australia/AUSP1314.xml',
         'Examples/australia/AUSP1315.xml']
         # create queues for transfer of parameters between process chain
@@ -972,7 +972,8 @@ class results_visualisation:
         #Create a badlands model instance
         model = badlandsModel()
 
-        xml_id = int(input_vector[11]/10)
+        # xml_id = int(input_vector[11]/10)
+        xml_id = 0
 
         print(xml_id, input_vector[11], ' xml_id  input_vector[11]')
 
