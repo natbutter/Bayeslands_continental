@@ -74,6 +74,8 @@ parser.add_argument('-pt','--ptsamples', help='Ratio of PT vs straight MCMC samp
 parser.add_argument('-rain_intervals','--rain_intervals', help='rain_intervals', dest="rain_intervals",default=4,type=int)
 parser.add_argument('-epsilon','--epsilon', help='epsilon for inital topo', dest="epsilon",default=0.5,type=float)
 parser.add_argument('-cov','--covariance', help='flag for covariance', dest="covariance",default=0,type=int)
+parser.add_argument('-inittopo', '--initialtopo', help='flag for init topo inference', dest="inittopo", default=1, type=int)
+parser.add_argument('-uplift', '--uplift', help='flag for uplift inference', dest="uplift", default=1, type=int)
 
 args = parser.parse_args()
     
@@ -90,6 +92,8 @@ pt_samples = args.pt_samples
 epsilon = args.epsilon
 rain_intervals = args.rain_intervals
 covariance = args.covariance
+inittopo = args.inittopo
+uplift = args.uplift
 
 method = 1 # type of formaltion for inittopo construction (Method 1 showed better results than Method 2)
 
@@ -290,11 +294,11 @@ class ptReplica(multiprocessing.Process):
         # Load the XmL input file
         model.load_xml(str(self.run_nb), xmlinput, verbose =False, muted = True)
         
-        init = True
+        # inittopo = True
 
         num_sealevel_coef = 10
 
-        if init == True:
+        if inittopo == True:
 
             geoparam  = num_sealevel_coef + rain_regiontime+13  # note 10 parameter space is for erod, c-marine etc etc, some extra space ( taking out time dependent rainfall)
 
