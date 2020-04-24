@@ -46,13 +46,13 @@ final_woID=init_topo_polygon/Paleotopo
 
 ogr2ogr -f "GMT" ${out_gmt} ${paleotopo}
 
-gmt grdmask ${out_gmt} -R${region} -I0.25 -Nz -aZ=ELEVATION -V -G${ptopo_grid}
+gmt grdmask ${out_gmt} -R${region} -I0.25 -Nz -aZ=ELEVATION -G${ptopo_grid}
 
 
-gmt grdfilter ${ptopo_grid} -G${smooth_grid} -D0 -I0.25 -V -Fg${g_filter}
+gmt grdfilter ${ptopo_grid} -G${smooth_grid} -D0 -I0.25 -Fg${g_filter}
 
 
-gmt grdtrack -G${smooth_grid} ${input_latlon} -V > ${latlon_csv}_${version}.csv
+gmt grdtrack -G${smooth_grid} ${input_latlon} > ${latlon_csv}_${version}.csv
 
 
 paste ${input_utm} ${latlon_csv}_${version}.csv | awk -F" " '{ print $1 " " $2 " " $5 }' > ${final}_${version}_${ID}.csv
